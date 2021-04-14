@@ -359,7 +359,9 @@ if you tested your smart contract and have an account with Celo to pay to deploy
  const Web3 = require('web3')
 const ContractKit = require('@celo/contractkit')
 ```
-#### now go to DataHub (figment.io) and chose Celo, copy celo-alfajores--rpc.datahub.figment.io and save the api key 
+#### now go to [DataHub (figment.io)](https://datahub.figment.io/)and chose Celo, copy celo-alfajores--rpc.datahub.figment.io and save the api key 
+![Captura de Tela (43)](https://user-images.githubusercontent.com/52639395/114647928-46c08300-9cb4-11eb-90a4-5a8600c7696d.png)
+
 ```javascript
 const web3 = new Web3('https://celo-alfajores--rpc.datahub.figment.io/apikey/<key>/')
 const kit = ContractKit.newKitFromWeb3(web3)
@@ -417,7 +419,7 @@ task("celo-deploy", "Prints account address or create a new", async () => {
     console.log(`save the contract address ${tx.contractAddress}`)
 });
 ```
-#### now run npx hardhat celo-account, save the address and go to https://celo.org/developers/faucet, get the coins to deploy
+#### now run npx hardhat celo-account, save the address and go to [Celo faucet](https://celo.org/developers/faucet), get the coins to deploy
 ```bash
 npx hardhat celo-account 
 ```
@@ -434,7 +436,7 @@ Ourreact app that will connect to celo wallet and interact with the smart contra
 npx create-react-app app 
 npm install @celo-tools/use-contractkit@0.0.30
 ```
-#### copy the file in hardhat folder  artifacts\contracts\TinyVillage.sol\TinyVillage.json and place  in src folder on react app,in public  folder  add new folder imgs and dowload the images , https://gateway.pinata.cloud/ipfs/QmPrKSh5cXA6NxHgm3cEzmhScafUnaBbvpXCeYJFyuG4Ph or in https://github.com/lucasespinosa28/Celo-Tutorial/ 
+#### copy the file in hardhat folder  artifacts\contracts\TinyVillage.sol\TinyVillage.json and place  in src folder on react app,in public  folder  add new folder imgs and dowload the images , [zip with images](https://gateway.pinata.cloud/ipfs/QmPrKSh5cXA6NxHgm3cEzmhScafUnaBbvpXCeYJFyuG4Ph) or in [Github](https://github.com/lucasespinosa28/Celo-Tutorial/ )
 
 #### in public/index,replace  
 ```html
@@ -479,7 +481,7 @@ function Images() {
 
 
         //Access a the contract
-        const contract = new kit.web3.eth.Contract(data.abi, "0xEd6C164e2ec7478b0E275c78FA78fF4Df6C2b26A")
+        const contract = new kit.web3.eth.Contract(data.abi, <contract address>)
         //Array with address NFT's owner 
         const ownerAddress = [address, address, address, address, address]
         //Array with NFT's id      
@@ -549,7 +551,7 @@ function MintNFT() {
     const [balanceArray, setBalanceArray] = useState();
     if (address.length > 0) {
         //Access a the contract
-        const contract = new kit.web3.eth.Contract(data.abi, "0xEd6C164e2ec7478b0E275c78FA78fF4Df6C2b26A")
+        const contract = new kit.web3.eth.Contract(data.abi, <contract address>)
         //Array with address NFT's owner 
         const ownerAddress = [address, address, address, address, address]
         //Array with NFT's id     
