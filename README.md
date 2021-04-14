@@ -187,4 +187,164 @@ contract TinyVillage  is ERC1155 {
 }
    }
 ```
-# Compile the contract using hardhat
+## Compile the contract using hardhat
+#### now delete the default hardhat contract in contracts/Greeter.sol,go to hardhat.config.js and update the solidity version 
+ ```javascript
+module.exports = {
+  solidity: "0.8.0",
+};
+```
+#### run npx hardhat compile
+ ```bash
+ npx hardhat compile
+ Solidity 0.8.0 is not fully supported yet. You can still use Hardhat, but some features, like stack traces, might not work correctly.
+
+Learn more at https://hardhat.org/reference/solidity-support"
+
+ Compiling 9 files with 0.8.0
+Compilation finished successfully
+```
+
+# Test our smart contract 
+we will test our contract first locally before deploy it to Celo testnet nerwork 
+#### delete the file test/sample-test.js and create a file test/tineyVillageTest.js
+ ```javascript
+const { expect } = require("chai");
+describe("TinyVillage Test", function() {
+
+});
+```
+#### for this tutorial does not take a long time, we will test two things in the contract 
+#### inside the describe, writer the first test, to test if the village is minted
+ ```javascript
+ it("Should mint village", async function() {
+        const accounts = await ethers.getSigners();
+
+        const TinyVillage = await ethers.getContractFactory("TinyVillage");
+        const tinyVillage = await TinyVillage.deploy();
+
+        await tinyVillage.mintVillage();
+        const balance = await tinyVillage.balanceOf(accounts[0].address,0)
+        expect(1).to.equal(Number(balance.toString()));
+    });
+
+});
+```
+#### inside the describe, writer the test if castle the minted, to mint the castle you need mint all other NFT
+ ```javascript
+ it("Should mint castle",async function () {
+        const accounts = await ethers.getSigners();
+
+        const TinyVillage = await ethers.getContractFactory("TinyVillage");
+        const tinyVillage = await TinyVillage.deploy();
+
+        await tinyVillage.mintVillage();
+        await tinyVillage.mintMine();
+        await tinyVillage.mintFarm();
+        await tinyVillage.mintMill();
+        await tinyVillage.mintCastle();
+        const balance = await tinyVillage.balanceOf(accounts[0].address, 4)
+        expect(1).to.equal(Number(balance.toString()));
+    });
+```
+#### this is the entire tineyVillageTest.js
+ ```javascript
+const { expect } = require("chai");
+
+describe("TinyVillage Test", function() {
+    it("Should mint village", async function() {
+        const accounts = await ethers.getSigners();
+
+        const TinyVillage = await ethers.getContractFactory("TinyVillage");
+        const tinyVillage = await TinyVillage.deploy();
+
+        await tinyVillage.mintVillage();
+        const balance = await tinyVillage.balanceOf(accounts[0].address,0)
+        expect(1).to.equal(Number(balance.toString()));
+    });
+
+    it("Should mint castle",async function () {
+        const accounts = await ethers.getSigners();
+
+        const TinyVillage = await ethers.getContractFactory("TinyVillage");
+        const tinyVillage = await TinyVillage.deploy();
+
+        await tinyVillage.mintVillage();
+        await tinyVillage.mintMine();
+        await tinyVillage.mintFarm();
+        await tinyVillage.mintMill();
+        await tinyVillage.mintCastle();
+        const balance = await tinyVillage.balanceOf(accounts[0].address, 4)
+        expect(1).to.equal(Number(balance.toString()));
+    });
+});
+```
+#### now run all the tests using the hardhat 
+```bash
+ npx hardhat test
+ 
+ TinyVillage Test
+    √ Should mint village (5832ms)
+    √ Should mint castle (2321ms)
+
+
+  2 passing (8s)
+```
+
+#### now that we compiled and testes the contract we'll deploy 
+
+# Creat a Celo account
+to deploy your contract on Celo Testnet will need to create a account and save to address to sent Celo test coin
+#### create a file celo_account.js to create and save the account 
+```javascript
+const Web3 = require('web3')
+const fs = require('fs')
+const path = require('path')
+const web3 = new Web3()
+const privateKeyFile = path.join(__dirname, './.secret')
+
+//this function vai return the address of your account
+const getAccount = () => {
+    const secret = fs.readFileSync(privateKeyFile);
+    const account = web3.eth.accounts.privateKeyToAccount(secret.toString())
+    //console.log(account.address);
+    return account;
+}
+//this function will crate new account and save the private in .secret file 
+const setAccount = () => {
+    const newAccount = web3.eth.accounts.create()
+    fs.writeFileSync(privateKeyFile, newAccount.privateKey, (err) => {
+        if (err) {
+            console.log(err);
+        }
+    })
+    console.log(`Address ${newAccount.address}`)
+}
+
+module.exports = {
+    getAccount,
+    setAccount
+}
+```
+
+#### go to hardhat.config.js,add on top of your code to read the files
+```javascript
+const fs = require('fs')
+const path = require('path')
+
+const privateKeyFile = path.join(__dirname, './.secret')
+const Account = require('./celo_account');
+```
+#### below of others task add new task
+```javascript
+task("celo-account", "Prints account address or create a new", async () => {
+    fs.existsSync(privateKeyFile) ? console.log(`Address ${Account.getAccount().address}`) : Account.setAccount();
+});
+```
+#### run npx hardhat celo-account, to generate a new account and address
+```bash
+ npx hardhat celo-account
+ 
+ Address <your new address>
+```
+when run npx hardhat celo-account it's will create a new account and save the account private in .secret,save the address will need to send test coin to deploy the contract, go to https://celo.org/developers/faucet and sent the coin to this address
