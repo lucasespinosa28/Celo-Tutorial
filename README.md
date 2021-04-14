@@ -1,3 +1,5 @@
+project for Mobile DeFi: Prize For Best Celo Learn Tutorial!
+
 # Celo-Tutorial
 
 # How to create a erc1155 contract and connect a Celo wallet in your app
