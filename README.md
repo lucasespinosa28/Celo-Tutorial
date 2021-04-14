@@ -348,3 +348,98 @@ task("celo-account", "Prints account address or create a new", async () => {
  Address <your new address>
 ```
 when run npx hardhat celo-account it's will create a new account and save the account private in .secret,save the address will need to send test coin to deploy the contract, go to https://celo.org/developers/faucet and sent the coin to this address
+
+# Deploy the smart contract
+if you tested your smart contract and have an account with Celo to pay to deploy it's time to Finalmente deploy the contract
+#### create file celo_deploy.js
+#### add node modules 
+```javascript
+ const Web3 = require('web3')
+const ContractKit = require('@celo/contractkit')
+```
+#### now go to DataHub (figment.io) and chose Celo, copy celo-alfajores--rpc.datahub.figment.io and save the api key 
+```javascript
+const web3 = new Web3('https://celo-alfajores--rpc.datahub.figment.io/apikey/<key>/')
+const kit = ContractKit.newKitFromWeb3(web3)
+const data = require('./artifacts/contracts/TinyVillage.sol/TinyVillage.json')
+const Account = require('./celo_account');
+```
+#### now write the function that will deploy the contract
+```javascript
+async function TinyVillage() {
+    const account = Account.getAccount()
+    kit.connection.addAccount(account.privateKey) 
+
+    let tx = await kit.connection.sendTransaction({
+        from: account.address,
+        data: data.bytecode
+    })
+     return tx.waitReceipt()
+}
+module.exports = {
+    TinyVillage
+}
+```
+#### the entire tineyVillageTest.js
+```javascipt
+const Web3 = require('web3')
+const ContractKit = require('@celo/contractkit')
+const web3 = new Web3('https://celo-alfajores--rpc.datahub.figment.io/apikey/<api key>/')
+const kit = ContractKit.newKitFromWeb3(web3)
+const data = require('./artifacts/contracts/TinyVillage.sol/TinyVillage.json')
+const Account = require('./celo_account');
+
+async function TinyVillage() {
+    const account = Account.getAccount()
+    kit.connection.addAccount(account.privateKey) 
+
+    let tx = await kit.connection.sendTransaction({
+        from: account.address,
+        data: data.bytecode
+    })
+     return tx.waitReceipt()
+}
+
+module.exports = {
+    TinyVillage
+}
+```
+#### in hardhat.config add a celo_deploy.js and new task
+```javascript
+const Deploy = require('./celo_deploy');
+```
+```javascript
+task("celo-deploy", "Prints account address or create a new", async () => {
+    const tx = await Deploy.TinyVillage();
+    console.log(tx);
+    console.log(`save the contract address ${tx.contractAddress}`)
+});
+```
+#### now run npx hardhat celo-account, save the address and go to https://celo.org/developers/faucet, get the coins to deploy
+```bash
+npx hardhat celo-account 
+```
+```bash
+npx hardhat celo-deploy
+```
+#### save the contract address to use in our app next
+
+# Creat a react app
+Ourreact app that will connect to celo wallet and interact with the smart contract
+
+#### install react and celo contract kit 
+```bash
+npx create-react-app app 
+npm install @celo-tools/use-contractkit@0.0.30
+```
+#### copy the file in hardhat folder  artifacts\contracts\TinyVillage.sol\TinyVillage.json and place  in src folder on react app,in public  folder  add new folder imgs and dowload the images , https://gateway.pinata.cloud/ipfs/QmPrKSh5cXA6NxHgm3cEzmhScafUnaBbvpXCeYJFyuG4Ph or in https://github.com/lucasespinosa28/Celo-Tutorial/ 
+
+#### in public/index,replace  
+```html
+<title>React App</title>
+```
+#### and add new name and bootstrap
+```html
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-eOJMYsd53ii+scO/bJGFsiCZc+5NDVN2yr8+0RDqr0Ql0h+rP48ckxlpbzKgwra6" crossorigin="anonymous">
+<title>Celo App</title>
+```
