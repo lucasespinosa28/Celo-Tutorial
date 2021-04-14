@@ -443,3 +443,243 @@ npm install @celo-tools/use-contractkit@0.0.30
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-eOJMYsd53ii+scO/bJGFsiCZc+5NDVN2yr8+0RDqr0Ql0h+rP48ckxlpbzKgwra6" crossorigin="anonymous">
 <title>Celo App</title>
 ```
+#### add ContractKit in src/index.js to connect celo account
+```javascript
+import { ContractKitProvider } from '@celo-tools/use-contractkit';
+import '@celo-tools/use-contractkit/lib/styles.css';
+```
+#### replace the <React.StrictMode> to
+```javascript
+<ContractKitProvider dappName="Nft Tutorial">
+ <App />
+</ContractKitProvider>,
+```
+#### now create file src/Images.js , it's file will display an image depending on the balance of Nft 
+```javascript
+//import all code necessary 
+import {
+    useContractKit,
+} from '@celo-tools/use-contractkit';
+import React, { useState } from 'react';
+import data from "./TinyVillage.json";
+
+// this component will return an image depending on its balance 
+function Images() {
+    // kit is used to interact with contract
+    // address will show the address of connect account
+    const { kit, address } = useContractKit();
+    //Store the source image     
+    let imagesource;
+
+    //React will store the balance when the async function end
+    const [balanceArray, setBalanceArray] = useState();
+    if (address.length > 0) {
+
+
+        //Access a the contract
+        const contract = new kit.web3.eth.Contract(data.abi, "0xEd6C164e2ec7478b0E275c78FA78fF4Df6C2b26A")
+        //Array with address NFT's owner 
+        const ownerAddress = [address, address, address, address, address]
+        //Array with NFT's id      
+        const ownerIds = [0, 1, 2, 3, 4]
+        //Function that will return the NFT that you have
+        async function getBalance() {
+            const balances = await contract.methods.balanceOfBatch(ownerAddress, ownerIds).call();
+            setBalanceArray(balances);
+        }
+        // When balanceArray is not null this part of the code will be activated 
+        if (balanceArray != null) {
+            switch (balanceArray.toString()) {
+                case "1,0,0,0,0":
+                    imagesource = "./imgs/village.jpg";
+                    break;
+                case "1,1,0,0,0":
+                    imagesource = "./imgs/mine.jpg";
+                    break;
+                case "1,0,1,0,0":
+                    imagesource = "./imgs/farm.jpg";
+                    break;
+                case "1,0,1,1,0":
+                    imagesource = "./imgs/farm-mill.jpg";
+                    break;
+                case "1,1,1,0,0":
+                    imagesource = "./imgs/mine-farm.jpg";
+                    break;
+                case "1,1,1,1,0":
+                    imagesource = "./imgs/mine-farm-mill.jpg";
+                    break;
+                case "1,1,1,1,1":
+                    imagesource = "./imgs/castle.jpg";
+                    break;
+                default:
+                    imagesource = "./imgs/empty.jpg";
+            }
+        }
+        // Run the code above 
+        getBalance()
+    } else {
+        imagesource = "./imgs/empty.jpg";
+    }
+    return (
+        <img src={imagesource} />
+    )
+}
+
+export default Images
+```
+#### now create file src/MintNFT.js,it will create the button to mint NFT in specific order
+```javascript
+//import all code necessary
+import {
+    useContractKit,
+} from '@celo-tools/use-contractkit';
+import React, { useState } from 'react';
+import data from "./TinyVillage.json";
+
+// this component will return  buttons to mint Nft
+function MintNFT() {
+    // kit is used to interact with contract
+    // address will show the address of connect account
+    const { kit, address } = useContractKit();
+    //Store button compoments     
+    let buttons;
+    //React will store the balance when the async function end
+    const [balanceArray, setBalanceArray] = useState();
+    if (address.length > 0) {
+        //Access a the contract
+        const contract = new kit.web3.eth.Contract(data.abi, "0xEd6C164e2ec7478b0E275c78FA78fF4Df6C2b26A")
+        //Array with address NFT's owner 
+        const ownerAddress = [address, address, address, address, address]
+        //Array with NFT's id     
+        const ownerIds = [0, 1, 2, 3, 4]
+
+        //Function that will return the NFT that you have
+        async function getBalance() {
+            const data = await contract.methods.balanceOfBatch(ownerAddress, ownerIds).call();
+            setBalanceArray(data);
+        }
+        // Run the code above 
+        getBalance();
+        //this function will coin NFT depending on the name you give 
+        async function Mint(name) {
+            console.log(balanceArray);
+            contract.methods.[name]().send({ from: address })
+                .on('transactionHash', function (hash) {
+                    console.log(hash);
+                })
+                .on('receipt', function (receipt) {
+                    console.log(receipt);
+                })
+                .on('error', function (error, receipt) {
+                    console.log(error);
+                    console.log(receipt);
+                });
+        }
+        // When the balanced Array is not null this part of the code will be activated and will show a button to mint an NFT that you don't have
+        if (balanceArray != null) {
+            switch (balanceArray.toString()) {
+                case "1,0,0,0,0":
+                    buttons =
+                        <div className="row">
+                            <button className="btn btn-success my-2" onClick={() => Mint("mintMine")}>Mint Mine</button>
+                            <button className="btn btn-success my-2" onClick={() => Mint("mintFarm")}>Mint Farm</button>
+                        </div>
+                    break;
+                case "1,1,0,0,0":
+                    buttons =
+                        <div className="row">
+                            <button className="btn btn-success my-2" onClick={() => Mint("mintFarm")}>Mint Farm</button>
+                        </div>
+                    break;
+                case "1,0,1,0,0":
+                    buttons =
+                        <div className="row">
+                            <button className="btn btn-success my-2" onClick={() => Mint("mintMine")}>Mint Mine</button>
+                            <button className="btn btn-success my-2" onClick={() => Mint("mintMill")}>Mint Mill</button>
+                        </div>
+                    break;
+                case "1,0,1,1,0":
+                    buttons =
+                        <div className="row">
+                            <button className="btn btn-success my-2" onClick={() => Mint("mintMine")}>Mint Mine</button>
+                        </div>
+                    break;
+                case "1,1,1,0,0":
+                    buttons =
+                        <div className="row">
+                            <button className="btn btn-success my-2" onClick={() => Mint("mintMill")}>Mint Mill</button>
+                        </div>
+                    break;
+                case "1,1,1,1,0":
+                    buttons =
+                        <div className="row">
+                            <button className="btn btn-success my-2" onClick={() => Mint("mintCastle")}>Mint Castle</button>
+                        </div>
+                    break;
+                case "1,1,1,1,1":
+                    buttons = <div className="row"></div>
+                    break;
+                default:
+                    buttons = <div div className="row my-2"> <button className="btn btn-success" onClick={() => Mint("mintVillage")}>Mint Village</button></div>
+            }
+        }
+    } else {
+        buttons = <div></div>
+    }
+    //mintVillage
+    return (
+        <div>{buttons}</div>
+    )
+}
+
+export default MintNFT
+```
+#### last put all things togher in src/app.js
+```javascript
+import Images from './Images';
+import MintNFT from './MintNFT';
+
+
+import {
+    useContractKit,
+    Alfajores,
+} from '@celo-tools/use-contractkit';
+
+
+function App() {
+    const { openModal, address, updateNetwork } = useContractKit();
+
+    updateNetwork(Alfajores);
+    let account;
+
+    //dectect if have a account connect
+    if (address.length == 0) {
+        account = "Connect a wallet to have Address"
+    } else {
+        account = address;
+    }
+
+    //build the app compoments
+    return (<div className="container">
+        <div className="row mb-3">
+            <button className="btn btn-warning" onClick={openModal}>Connect wallet</button>
+        </div>
+        <div className="row">
+            <div className="col">
+                <h1 className="text-break alert alert-primary">{account}</h1>
+            </div>
+        </div>
+        <div className="row">
+            <Images />
+        </div>
+            <MintNFT />
+    </div>);
+}
+
+export default App;
+```
+
+#### now test if the app are running, npm start this must be the result 
+```bash 
+npm start
+```
