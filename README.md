@@ -314,121 +314,34 @@ save the contract address 0x47A424A0975924C3d177470C519C8DBA37e16Ec9
 
 
 # Creat a react app
-Ourreact app that will connect to celo wallet and interact with the smart contract
-#### install react and celo contract kit 
+Sites like [opensea.io] (https://opensea.io/) and another NFT marketplaces do not yet support Celo to see your Nfts we will build a reaction application,to did not build a react app from scratch download de souce code from [github] (https://github.com/lucasespinosa28/Celo-Tutorial/),open the folder ```demo\start```, and run:
 ```bash
-npx create-react-app app 
-npm install @celo-tools/use-contractkit@0.0.30
+npm install
 ```
-#### copy the file in hardhat folder  artifacts\contracts\TinyVillage.sol\TinyVillage.json and place  in src folder on react app,in public  folder  add new folder imgs and dowload the images , [zip with images](https://gateway.pinata.cloud/ipfs/QmPrKSh5cXA6NxHgm3cEzmhScafUnaBbvpXCeYJFyuG4Ph) or in [Github](https://github.com/lucasespinosa28/Celo-Tutorial/ )
-#### in public/index,replace  
-```html
-<title>React App</title>
-```
-#### and add new name and bootstrap
-```html
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-eOJMYsd53ii+scO/bJGFsiCZc+5NDVN2yr8+0RDqr0Ql0h+rP48ckxlpbzKgwra6" crossorigin="anonymous">
-<title>Celo App</title>
-```
-#### add ContractKit in src/index.js to connect celo account
+Open the file ```src/Images.js``` and write the code in the place indicated by comment.
 ```javascript
-import { ContractKitProvider } from '@celo-tools/use-contractkit';
-import '@celo-tools/use-contractkit/lib/styles.css';
+//Access a the contract
+const contract = new kit.web3.eth.Contract(data.abi, "0x47A424A0975924C3d177470C519C8DBA37e16Ec9")
+//Array with address NFT's owner 
+const ownerAddress = [address, address, address, address, address]
+//Array with NFT's id      
+const ownerIds = [0, 1, 2, 3, 4]
+//Function that will return the NFT that you have
+async function getBalance() {
+ const balances = await contract.methods.balanceOfBatch(ownerAddress, ownerIds).call();
+ setBalanceArray(balances);
+ }
 ```
-#### replace the <React.StrictMode> to
+This code work accessing the smart contract using  ```kit.web3.eth.Contract...```,The code has 2 arrays one with user address and the other with list NFTs id , when use ***balanceOfBatch*** will return a array with each NFT that the user has depends on the balance the code will show a specific image for each array combination,example: if balanceOfBatch returns ***[1,0,0,0,0]*** the code will show this image
+![village](https://user-images.githubusercontent.com/52639395/115546874-ee711e80-a27b-11eb-90e5-2febf733aabc.jpg)
+
+Open the file ```src/MintNFT.js```,this code work getting the balance like the ***Images.js***,write the code below to showing the button to mint  the NFT
+
+
+the code below work like the Images.js ,but it's create a button only if is possible to mint the NFT
 ```javascript
-<ContractKitProvider dappName="Nft Tutorial">
- <App />
-</ContractKitProvider>,
-```
-#### now create file src/Images.js , it's file will display an image depending on the balance of Nft 
-```javascript
-//import all code necessary 
-import {
-    useContractKit,
-} from '@celo-tools/use-contractkit';
-import React, { useState } from 'react';
-import data from "./TinyVillage.json";
-// this component will return an image depending on its balance 
-function Images() {
-    // kit is used to interact with contract
-    // address will show the address of connect account
-    const { kit, address } = useContractKit();
-    //Store the source image     
-    let imagesource;
-    //React will store the balance when the async function end
-    const [balanceArray, setBalanceArray] = useState();
-    if (address.length > 0) {
-        //Access a the contract
-        const contract = new kit.web3.eth.Contract(data.abi, <contract address>)
-        //Array with address NFT's owner 
-        const ownerAddress = [address, address, address, address, address]
-        //Array with NFT's id      
-        const ownerIds = [0, 1, 2, 3, 4]
-        //Function that will return the NFT that you have
-        async function getBalance() {
-            const balances = await contract.methods.balanceOfBatch(ownerAddress, ownerIds).call();
-            setBalanceArray(balances);
-        }
-        // When balanceArray is not null this part of the code will be activated 
-        if (balanceArray != null) {
-            switch (balanceArray.toString()) {
-                case "1,0,0,0,0":
-                    imagesource = "./imgs/village.jpg";
-                    break;
-                case "1,1,0,0,0":
-                    imagesource = "./imgs/mine.jpg";
-                    break;
-                case "1,0,1,0,0":
-                    imagesource = "./imgs/farm.jpg";
-                    break;
-                case "1,0,1,1,0":
-                    imagesource = "./imgs/farm-mill.jpg";
-                    break;
-                case "1,1,1,0,0":
-                    imagesource = "./imgs/mine-farm.jpg";
-                    break;
-                case "1,1,1,1,0":
-                    imagesource = "./imgs/mine-farm-mill.jpg";
-                    break;
-                case "1,1,1,1,1":
-                    imagesource = "./imgs/castle.jpg";
-                    break;
-                default:
-                    imagesource = "./imgs/empty.jpg";
-            }
-        }
-        // Run the code above 
-        getBalance()
-    } else {
-        imagesource = "./imgs/empty.jpg";
-    }
-    return (
-        <img src={imagesource} />
-    )
-}
-export default Images
-```
-#### now create file src/MintNFT.js,it will create the button to mint NFT in specific order
-```javascript
-//import all code necessary
-import {
-    useContractKit,
-} from '@celo-tools/use-contractkit';
-import React, { useState } from 'react';
-import data from "./TinyVillage.json";
-// this component will return  buttons to mint Nft
-function MintNFT() {
-    // kit is used to interact with contract
-    // address will show the address of connect account
-    const { kit, address } = useContractKit();
-    //Store button compoments     
-    let buttons;
-    //React will store the balance when the async function end
-    const [balanceArray, setBalanceArray] = useState();
-    if (address.length > 0) {
-        //Access a the contract
-        const contract = new kit.web3.eth.Contract(data.abi, <contract address>)
+ //Access a the contract
+        const contract = new kit.web3.eth.Contract(data.abi, "0x47A424A0975924C3d177470C519C8DBA37e16Ec9")
         //Array with address NFT's owner 
         const ownerAddress = [address, address, address, address, address]
         //Array with NFT's id     
@@ -455,102 +368,32 @@ function MintNFT() {
                     console.log(receipt);
                 });
         }
-        // When the balanced Array is not null this part of the code will be activated and will show a button to mint an NFT that you don't have
-        if (balanceArray != null) {
-            switch (balanceArray.toString()) {
-                case "1,0,0,0,0":
-                    buttons =
-                        <div className="row">
-                            <button className="btn btn-success my-2" onClick={() => Mint("mintMine")}>Mint Mine</button>
-                            <button className="btn btn-success my-2" onClick={() => Mint("mintFarm")}>Mint Farm</button>
-                        </div>
-                    break;
-                case "1,1,0,0,0":
-                    buttons =
-                        <div className="row">
-                            <button className="btn btn-success my-2" onClick={() => Mint("mintFarm")}>Mint Farm</button>
-                        </div>
-                    break;
-                case "1,0,1,0,0":
-                    buttons =
-                        <div className="row">
-                            <button className="btn btn-success my-2" onClick={() => Mint("mintMine")}>Mint Mine</button>
-                            <button className="btn btn-success my-2" onClick={() => Mint("mintMill")}>Mint Mill</button>
-                        </div>
-                    break;
-                case "1,0,1,1,0":
-                    buttons =
-                        <div className="row">
-                            <button className="btn btn-success my-2" onClick={() => Mint("mintMine")}>Mint Mine</button>
-                        </div>
-                    break;
-                case "1,1,1,0,0":
-                    buttons =
-                        <div className="row">
-                            <button className="btn btn-success my-2" onClick={() => Mint("mintMill")}>Mint Mill</button>
-                        </div>
-                    break;
-                case "1,1,1,1,0":
-                    buttons =
-                        <div className="row">
-                            <button className="btn btn-success my-2" onClick={() => Mint("mintCastle")}>Mint Castle</button>
-                        </div>
-                    break;
-                case "1,1,1,1,1":
-                    buttons = <div className="row"></div>
-                    break;
-                default:
-                    buttons = <div div className="row my-2"> <button className="btn btn-success" onClick={() => Mint("mintVillage")}>Mint Village</button></div>
-            }
-        }
-    } else {
-        buttons = <div></div>
-    }
-    //mintVillage
-    return (
-        <div>{buttons}</div>
-    )
-}
-export default MintNFT
 ```
-#### last put all things togher in src/app.js
+
+To not create a function to mintVillage,mintFarm,mintMine and etc, the same function will mint an NFT using the name of the function it has in the smart contract ,
+example:
 ```javascript
-import Images from './Images';
-import MintNFT from './MintNFT';
-import {
-    useContractKit,
-    Alfajores,
-} from '@celo-tools/use-contractkit';
-function App() {
-    const { openModal, address, updateNetwork } = useContractKit();
-    updateNetwork(Alfajores);
-    let account;
-    //dectect if have a account connect
-    if (address.length == 0) {
-        account = "Connect a wallet to have Address"
-    } else {
-        account = address;
-    }
-    //build the app compoments
-    return (<div className="container">
-        <div className="row mb-3">
-            <button className="btn btn-warning" onClick={openModal}>Connect wallet</button>
-        </div>
-        <div className="row">
-            <div className="col">
-                <h1 className="text-break alert alert-primary">{account}</h1>
-            </div>
-        </div>
-        <div className="row">
-            <Images />
-        </div>
-            <MintNFT />
-    </div>);
-}
-export default App;
+ async function Mint("mintVillage") {
+  contract.methods.["mintVillage"]().send(...
+ }
+ Mint("mintVillage")}
+ ....
+ contract.methods.["mintVillage"]().send({ from: address })
+ //if not using this method
+ contract.methods.mintVillage().send({ from: address })
+ ....
+ contract.methods.mintCastle().send({ from: address })
+ ....
 ```
-#### now test if the app are running, npm start this must be the result 
-```bash 
+if the code have any error, test the app
+```bash
 npm start
 ```
-![Captura de Tela (41)](https://user-images.githubusercontent.com/52639395/114646237-47a3e580-9cb1-11eb-9edc-43fd0baaa17a.png)
+![Captura de Tela (49)](https://user-images.githubusercontent.com/52639395/115549890-94725800-a27f-11eb-9993-c9ddc794eb12.png)
+![Captura de Tela (50)](https://user-images.githubusercontent.com/52639395/115549907-99370c00-a27f-11eb-9b41-230732ca3155.png)
+after you connect to a account send go to [Celo faucets ](https://celo.org/developers/faucets) and get the test coin to star buying the NFT,first you need to buy a village and next you will need to farm and mine do pass to next level
+![Captura de Tela (54)](https://user-images.githubusercontent.com/52639395/115550371-267a6080-a280-11eb-94ab-1840236fdbac.png)
+![Captura de Tela (55)](https://user-images.githubusercontent.com/52639395/115550456-43169880-a280-11eb-94e3-e101d18722eb.png)
+
+# Learning more
+how this tutorial was about how writer smart contract and use Hardhat to learning more about Celo, you read the [Celo contractkit ](https://docs.celo.org/v/master/developer-guide/contractkit) and the  [Celo dappkit ](https://docs.celo.org/v/master/developer-guide/dappkit)
