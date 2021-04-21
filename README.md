@@ -42,9 +42,10 @@ Welcome to Hardhat v2.1.2
 # Smart contracts using the OpenZeppelin ERC1155 library
 ERC1155 is a novel token standard that aims to take the best from previous standards to create a fungibility-agnostic and gas-efficient token contract.
 ERC1155 draws ideas from all of ERC20, ERC721, and ERC777. ERC1155s are commonly used in NFT collectible projects, although they are not typically viewed as 'fine art' it is not unreasonable to use this token standard for such purposes. We will examine the use case of a token meant specifically for use within our Tiny Village.
-#### Install the OpenZeppelin contracts
+#### Install the OpenZeppelin contracts and create your smart contract file
  ```bash
 npm install @openzeppelin/contracts
+touch  contracts/TinyVillage.sol
 ```
 #### create the file contracts/TinyVillage.sol
 #### next we'll write our contract using solidity
