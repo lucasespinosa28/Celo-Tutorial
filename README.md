@@ -47,23 +47,21 @@ ERC1155 draws ideas from all of ERC20, ERC721, and ERC777. ERC1155s are commonly
 npm install @openzeppelin/contracts
 touch  contracts/TinyVillage.sol
 ```
-#### create the file contracts/TinyVillage.sol
-#### next we'll write our contract using solidity
-#### choose the compile version and the license
- ```solidity
-//SPDX-License-Identifier: MIT
-pragma solidity ^0.8.0;
+#### Write your smart contract 
+Let's add a license to your code ```SPDX License Identifier```, the source code of the smart contract will be visible on the blockchain, it's a best practice to add a license to your code to avoid the problem if other people use this code.  with ```pragma solidity ^0.8.0;``` we'll choose a compilation version,the compile version of your code and libraries must be compatible,The ```import "@openzeppelin/contracts/token/ERC1155/ERC1155.sol``` will import the ERC1155.sol and other solidity files that ERC1155 will need to compile. Create the ``` contract TinyVillage  is ERC1155``` and tell to use library ERC1155.
+
+### ⚠ If you are using Remix import the ERC1155 module using.
+```solidity
+import "https://github.com/OpenZeppelin/openzeppelin-contracts/blob/master/contracts/token/ERC1155/ERC1155.sol";
 ```
-#### import the necessary libraries 
  ```solidity
-import "@openzeppelin/contracts/token/ERC1155/ERC1155.sol";
-```
-#### now create the contract
- ```solidity
-contract TinyVillage  is ERC1155 {
+ //SPDX-License-Identifier: MIT
+ pragma solidity ^0.8.0;
+ import "@openzeppelin/contracts/token/ERC1155/ERC1155.sol";
+ contract TinyVillage  is ERC1155 {
 }
 ```
-#### inside the contract create the id to ours tokens
+#### Write the NFT parth of smart contract
  ```solidity
  uint256 public constant VILLAGE = 0;
  uint256 public constant MINE = 1;
