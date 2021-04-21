@@ -39,10 +39,13 @@ Welcome to Hardhat v2.1.2
   Create an empty hardhat.config.js
   Quit
 ```
-# Smart contracts using the OpenZeppelin ERC1155 library
+## Now we'll write our smart contract
+
+### Smart contracts using the OpenZeppelin ERC1155 library
 ERC1155 is a novel token standard that aims to take the best from previous standards to create a fungibility-agnostic and gas-efficient token contract.
 ERC1155 draws ideas from all of ERC20, ERC721, and ERC777. ERC1155s are commonly used in NFT collectible projects, although they are not typically viewed as 'fine art' it is not unreasonable to use this token standard for such purposes. We will examine the use case of a token meant specifically for use within our Tiny Village.
-#### Install the OpenZeppelin contracts and create your smart contract file
+
+### Install the OpenZeppelin contracts and create your smart contract file
  ```bash
 npm install @openzeppelin/contracts
 touch  contracts/TinyVillage.sol
@@ -61,9 +64,8 @@ import "https://github.com/OpenZeppelin/openzeppelin-contracts/blob/master/contr
  contract TinyVillage  is ERC1155 {
 }
 ```
-#### Write the NFT parth of smart contract
+### Write the NFT parth of smart contract
 Inside the ```contract TinyVillage  is ERC1155``` create the Nfts's Ids  ```uint256 public constant VILLAGE```the name is useful to remember the Ids it is possible to pass just the number without saving in a variable.
-
 ```solidity
  uint256 public constant VILLAGE = 0;
  _mint(msg.sender,VILLAGE,1,"0x000");
@@ -89,8 +91,8 @@ When an App ou wallet for use this contract it will change the {id} in the for a
   "image": "https://gateway.pinata.cloud/ipfs/QmPoFKTD8U2Mg6kgMheyv9K4rtPRnKv78orRHjaYaTVqNm/images/mine.png"
 }
 ```
-#### Write the function will mint the NFTs
-Our function has 2 parts,```require(balanceOf(msg.sender,id) == 0,"<Error mensagem>")``` ,Get the balance, it is only possible to mint an NFT if you do not have the same
+### Write the function will mint the NFTs
+Our function has 2 parts,```require(balanceOf(msg.sender,id) == 0,"<Error mensagem>")``` ,Get the balance and it is only possible to mint an NFT if you do not have the same Nft
 and the ```_mint(<Address of when called the contract>,<NFT's id>,<quantity>,<extra date>);```.
  ```solidity
  //If you do not have any village the contract will let you buy one
@@ -113,25 +115,25 @@ and the ```_mint(<Address of when called the contract>,<NFT's id>,<quantity>,<ex
      _mint(msg.sender,FARM,1,"0x000");
  }
     
-    //If you do not have any Mill and have Village and Farm the contract will let you buy the Mill
-    function mintMill() public{
-        require(balanceOf(msg.sender,VILLAGE) > 0,"you need have a Village");
-        require(balanceOf(msg.sender,FARM) > 0,"you need have a Farm");
-        require(balanceOf(msg.sender,MILL) == 0,"you already have a Mill");
-        _mint(msg.sender,MILL,1,"0x000");
-    }
-    
-    //If you do not have any Castle and have all others NFt the contract will let you buy the Mill
-    function mintCastle() public{
-        require(balanceOf(msg.sender,MINE) > 0,"you need have a Mine");
-        require(balanceOf(msg.sender,MILL) > 0,"you need have a Mill");
-        require(balanceOf(msg.sender,CASTLE) == 0,"you already have a Castle");
-        _mint(msg.sender,CASTLE,1,"0x000");
-    }
+   //If you do not have any Mill and have Village and Farm the contract will let you buy the Mill
+   function mintMill() public{
+       require(balanceOf(msg.sender,VILLAGE) > 0,"you need have a Village");
+       require(balanceOf(msg.sender,FARM) > 0,"you need have a Farm");
+       require(balanceOf(msg.sender,MILL) == 0,"you already have a Mill");
+       _mint(msg.sender,MILL,1,"0x000");
+   }
+
+   //If you do not have any Castle and have all others NFt the contract will let you buy the Mill
+   function mintCastle() public{
+       require(balanceOf(msg.sender,MINE) > 0,"you need have a Mine");
+       require(balanceOf(msg.sender,MILL) > 0,"you need have a Mill");
+       require(balanceOf(msg.sender,CASTLE) == 0,"you already have a Castle");
+       _mint(msg.sender,CASTLE,1,"0x000");
+   }
 ```
 #### [TinyVillage.sol complete code ](https://github.com/lucasespinosa28/Celo-Tutorial/blob/main/demo/contracts/TinyVillage.sol)
 
-## Use Harthat to compile
+### Use Harthat to compile
 First,delete ```contracts/Greeter.sol``` and the ```test/sample-test.js```,Go to ```hardhat.config.js``` and add the same version ou are using in the **TinyVillage.sol** smart contract.
  ```javascript
 module.exports = {
@@ -147,10 +149,10 @@ Learn more at https://hardhat.org/reference/solidity-support"
 Compiling 9 files with 0.8.0
 Compilation finished successfully
 ```
-# Use Harthat to test you smart contract
+### Use Harthat to test you smart contract
 the best practive is test the smart contract in your machine before deploy, create a file ```test/tineyVillageTest.js```. The [hardhat documentation](https://hardhat.org/guides/truffle-testing.html) has more information about testing using other libraries. 
 
-Import the module chai, it's are our test library,it was installed in the first parts of this tutorial 
+Import the module chai, it's are our test library,it was installed in the first part of this tutorial 
 ```javascript
 const { expect } = require("chai");
 ```
@@ -198,7 +200,7 @@ Now run hardhat again to test ```npx hardhat test```,depending of your machine t
 ```
 #### [tineyVillageTest.js complete code ](https://github.com/lucasespinosa28/Celo-Tutorial/blob/main/demo/test/tineyVillageTest.js)
 
-# Creat a Celo account with Hardhat
+### Creat a Celo account with Hardhat
 To deploy your contract on Celo Testnet will need to create a account and save the address to sent Celo test coin,In main folder create a file ```celo_account.js```,we'll not use the default accounts, because we'll need to save account to use later.
 
 ```javascript
