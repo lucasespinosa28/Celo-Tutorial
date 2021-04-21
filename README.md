@@ -252,12 +252,8 @@ When run ```npx hardhat celo-account```, the new account are created and the pri
 ###### [celo_account.js complete code ](https://github.com/lucasespinosa28/Celo-Tutorial/blob/main/demo/celo_account.js)
 ###### [hardhat.config.js complete code ](https://github.com/lucasespinosa28/Celo-Tutorial/blob/main/demo/hardhat.config.js)
 
-#### now go to [DataHub (figment.io)](https://datahub.figment.io/)and chose Celo, copy celo-alfajores--rpc.datahub.figment.io and save the api key 
-![Captura de Tela (43)](https://user-images.githubusercontent.com/52639395/114647928-46c08300-9cb4-11eb-90a4-5a8600c7696d.png)
-
 # Use Hardhat to deploy
-If your code is already tested, it's time to deploy ,go to [DataHub (figment.io)](https://datahub.figment.io/) and chose Celo, copy celo-alfajores--rpc.datahub.figment.io and save the api key 
-![Captura de Tela (43)](https://user-images.githubusercontent.com/52639395/114647928-46c08300-9cb4-11eb-90a4-5a8600c7696d.png),Create ```celo_deploy.js``` and write the code bellow,```@celo/contractkit``` is a library to help developers and validators to interact with the celo-blockchain,```TinyVillage()``` going to be exported and used as a hardhat task.
+If your code is already tested, it's time to deploy ,to deploy a smart contract you will need to connect to Celo BlockChain, to do this you will need a server running the Celo network,to connect to Celo and another Blockchain network one of the easiest ways and using figment DataHub, in the [DataHub (figment.io)](https://datahub.figment.io/) and chose Celo, copy celo-alfajores--rpc.datahub.figment.io and save the api key ![Captura de Tela (43)](https://user-images.githubusercontent.com/52639395/114647928-46c08300-9cb4-11eb-90a4-5a8600c7696d.png),Create ```celo_deploy.js``` and write the code bellow,```@celo/contractkit``` is a library to help developers and validators to interact with the celo-blockchain,```TinyVillage()``` is the function used to deploy TinyVillage contract,the ```/artifacts/contracts/TinyVillage.sol/TinyVillage.json```is the file that contains all the information about our compiled contract,to deploy you'll need of [DataHub (figment.io)](https://datahub.figment.io/) to interact will need of 
 ```javascript
 const Web3 = require('web3')
 const ContractKit = require('@celo/contractkit')
@@ -280,6 +276,7 @@ module.exports = {
     TinyVillage
 }
 ```
+the same you did in ```task("celo-account"}``` it's time to create a task to deploy
 #### in hardhat.config add a celo_deploy.js and new task
 ```javascript
 const Deploy = require('./celo_deploy');
@@ -298,6 +295,9 @@ npx hardhat celo-account
 ```bash
 npx hardhat celo-deploy
 ```
+
+###### [celo_deploy.js complete code ]https://github.com/lucasespinosa28/Celo-Tutorial/blob/main/demo/celo_deploy.js)
+###### [hardhat.config.js complete code ](https://github.com/lucasespinosa28/Celo-Tutorial/blob/main/demo/hardhat.config.js)
 #### save the contract address to use in our app next
 # Creat a react app
 Ourreact app that will connect to celo wallet and interact with the smart contract
