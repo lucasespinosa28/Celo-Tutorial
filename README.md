@@ -62,28 +62,26 @@ import "https://github.com/OpenZeppelin/openzeppelin-contracts/blob/master/contr
 }
 ```
 #### Write the NFT parth of smart contract
+Inside the ```contract TinyVillage  is ERC1155``` create the Nfts's Ids  ```uint256 public constant VILLAGE```the name is useful to remember the Ids it is possible to pass just the number without saving in a variable.
+
+```solidity
+ uint256 public constant VILLAGE = 0;
+ _mint(msg.sender,VILLAGE,1,"0x000");
+ //The code are the same 
+ _mint(msg.sender,0,1,"0x000");
+```
+create the list with ours NFTs and the ```constructor()```, The constructor code is executed once when a contract is created and it's used to initialize contract state.
  ```solidity
  uint256 public constant VILLAGE = 0;
  uint256 public constant MINE = 1;
  uint256 public constant FARM = 2;
  uint256 public constant MILL = 3;
  uint256 public constant CASTLE = 4;
+ 
+ constructor() ERC1155("https://gateway.pinata.cloud/ipfs/QmTN32qBKYqnyvatqfnU8ra6cYUGNxpYziSddCatEmopLR/metadata/api/item/{id}.json") {
+  }
 ```
-#### added the constructor, insert the URL that contains the JSON that have information about our tokens
- ```solidity
-constructor() ERC1155("https://gateway.pinata.cloud/ipfs/QmTN32qBKYqnyvatqfnU8ra6cYUGNxpYziSddCatEmopLR/metadata/api/item/{id}.json") {
-   }
-```
-#### when the app looking for a token it will replace the {id} for a token id,example the json 1 of the mine
-```
- https://gateway.pinata.cloud/ipfs/QmTN32qBKYqnyvatqfnU8ra6cYUGNxpYziSddCatEmopLR/metadata/api/item/1.json
-```
-#### added the constructor, insert the URL that contains the JSON that have information about our tokens
- ```solidity
-constructor() ERC1155("https://gateway.pinata.cloud/ipfs/QmTN32qBKYqnyvatqfnU8ra6cYUGNxpYziSddCatEmopLR/metadata/api/item/{id}.json") {
-   }
-```
-#### this is json who will return when looking for 1.json, he has basic information about our tokens, such as name, description and address of his image 
+When an App ou wallet for use this contract it will change the {id} in the for an NFT Id that the user has. For example, the Mine id is 1 to get NFT metadata will use this URL ```https://gateway.pinata.cloud/ipfs/QmTN32qBKYqnyvatqfnU8ra6cYUGNxpYziSddCatEmopLR/metadata/api/item/1.json```
 ```json
 {
   "name": "Mine",
@@ -91,27 +89,29 @@ constructor() ERC1155("https://gateway.pinata.cloud/ipfs/QmTN32qBKYqnyvatqfnU8ra
   "image": "https://gateway.pinata.cloud/ipfs/QmPoFKTD8U2Mg6kgMheyv9K4rtPRnKv78orRHjaYaTVqNm/images/mine.png"
 }
 ```
-#### our smart contract let you mint an NFT in specific conditions
+#### Write the function will mint the NFTs
+Our function has 2 parts,```require(balanceOf(msg.sender,id) == 0,"<Error mensagem>")``` ,Get the balance, it is only possible to mint an NFT if you do not have the same
+and the ```_mint(<Address of when called the contract>,<NFT's id>,<quantity>,<extra date>);```.
  ```solidity
  //If you do not have any village the contract will let you buy one
-    function mintVillage() public{
-        require(balanceOf(msg.sender,VILLAGE) == 0,"you already have a Village ");
-        _mint(msg.sender,VILLAGE,1,"0x000");
-    }
-    
-    //If you do not have any Mine and have Village the contract will let you buy the Mine
-    function mintMine() public{
-        require(balanceOf(msg.sender,VILLAGE) > 0,"you need have a Village");
-        require(balanceOf(msg.sender,MINE) == 0,"you already have a Mine");
-        _mint(msg.sender,MINE,1,"0x000");
-    }
-    
-    //If you do not have any Farm and have Village the contract will let you buy the Farm
-    function mintFarm() public{
-        require(balanceOf(msg.sender,VILLAGE) > 0,"you need have a Village");
-        require(balanceOf(msg.sender,FARM) == 0,"you already have a Farm");
-        _mint(msg.sender,FARM,1,"0x000");
-    }
+ function mintVillage() public{
+     require(balanceOf(msg.sender,VILLAGE) == 0,"you already have a Village ");
+     _mint(msg.sender,VILLAGE,1,"0x000");
+ }
+
+ //If you do not have any Mine and have Village the contract will let you buy the Mine
+ function mintMine() public{
+     require(balanceOf(msg.sender,VILLAGE) > 0,"you need have a Village");
+     require(balanceOf(msg.sender,MINE) == 0,"you already have a Mine");
+     _mint(msg.sender,MINE,1,"0x000");
+ }
+
+ //If you do not have any Farm and have Village the contract will let you buy the Farm
+ function mintFarm() public{
+     require(balanceOf(msg.sender,VILLAGE) > 0,"you need have a Village");
+     require(balanceOf(msg.sender,FARM) == 0,"you already have a Farm");
+     _mint(msg.sender,FARM,1,"0x000");
+ }
     
     //If you do not have any Mill and have Village and Farm the contract will let you buy the Mill
     function mintMill() public{
@@ -129,58 +129,8 @@ constructor() ERC1155("https://gateway.pinata.cloud/ipfs/QmTN32qBKYqnyvatqfnU8ra
         _mint(msg.sender,CASTLE,1,"0x000");
     }
 ```
-#### this is the entire TinyVillage.sol contract
- ```solidity
-//SPDX-License-Identifier: MIT
-pragma solidity ^0.8.0;
-import "@openzeppelin/contracts/token/ERC1155/ERC1155.sol";
-contract TinyVillage  is ERC1155 {
-    uint256 public constant VILLAGE = 0;
-    uint256 public constant MINE = 1;
-    uint256 public constant FARM = 2;
-    uint256 public constant MILL = 3;
-    uint256 public constant CASTLE = 4;
-    constructor() ERC1155("https://gateway.pinata.cloud/ipfs/QmTN32qBKYqnyvatqfnU8ra6cYUGNxpYziSddCatEmopLR/metadata/api/item/{id}.json") {
-    }
-    
-    //If you do not have any village the contract will let you buy one
-    function mintVillage() public{
-        require(balanceOf(msg.sender,VILLAGE) == 0,"you already have a Village ");
-        _mint(msg.sender,VILLAGE,1,"0x000");
-    }
-    
-    //If you do not have any Mine and have Village the contract will let you buy the Mine
-    function mintMine() public{
-        require(balanceOf(msg.sender,VILLAGE) > 0,"you need have a Village");
-        require(balanceOf(msg.sender,MINE) == 0,"you already have a Mine");
-        _mint(msg.sender,MINE,1,"0x000");
-    }
-    
-    //If you do not have any Farm and have Village the contract will let you buy the Farm
-    function mintFarm() public{
-        require(balanceOf(msg.sender,VILLAGE) > 0,"you need have a Village");
-        require(balanceOf(msg.sender,FARM) == 0,"you already have a Farm");
-        _mint(msg.sender,FARM,1,"0x000");
-    }
-    
-    //If you do not have any Mill and have Village and Farm the contract will let you buy the Mill
-    function mintMill() public{
-        require(balanceOf(msg.sender,VILLAGE) > 0,"you need have a Village");
-        require(balanceOf(msg.sender,FARM) > 0,"you need have a Farm");
-        require(balanceOf(msg.sender,MILL) == 0,"you already have a Mill");
-        _mint(msg.sender,MILL,1,"0x000");
-    }
-    
-    //If you do not have any Castle and have all others NFt the contract will let you buy the Mill
-    function mintCastle() public{
-        require(balanceOf(msg.sender,MINE) > 0,"you need have a Mine");
-        require(balanceOf(msg.sender,MILL) > 0,"you need have a Mill");
-        require(balanceOf(msg.sender,CASTLE) == 0,"you already have a Castle");
-        _mint(msg.sender,CASTLE,1,"0x000");
-    }
-}
-   }
-```
+#### [TinyVillage.sol complete code ](https://github.com/lucasespinosa28/Celo-Tutorial/blob/main/demo/contracts/TinyVillage.sol)
+
 ## Compile the contract using hardhat
 #### now delete the default hardhat contract in contracts/Greeter.sol,go to hardhat.config.js and update the solidity version 
  ```javascript
