@@ -1,12 +1,12 @@
 {
   "_format": "hh-sol-cache-2",
   "files": {
-    "C:\\Users\\lucas\\Documents\\celo\\tutorial\\start\\contracts\\TinyVillage.sol": {
-      "lastModificationDate": 1618361452882,
-      "contentHash": "dbb5e028b21b5511fe73cb1991e2bd94",
+    "C:\\Users\\lucas\\OneDrive\\Documentos\\GitHub\\Celo-Tutorial\\demo\\contracts\\TinyVillage.sol": {
+      "lastModificationDate": 1658542183738,
+      "contentHash": "88255d1cd877721dcab3133f5242f2ca",
       "sourceName": "contracts/TinyVillage.sol",
       "solcConfig": {
-        "version": "0.8.0",
+        "version": "0.8.1",
         "settings": {
           "optimizer": {
             "enabled": false,
@@ -18,7 +18,8 @@
                 "abi",
                 "evm.bytecode",
                 "evm.deployedBytecode",
-                "evm.methodIdentifiers"
+                "evm.methodIdentifiers",
+                "metadata"
               ],
               "": [
                 "ast"
@@ -31,18 +32,18 @@
         "@openzeppelin/contracts/token/ERC1155/ERC1155.sol"
       ],
       "versionPragmas": [
-        "^0.8.0"
+        "^0.8.1"
       ],
       "artifacts": [
         "TinyVillage"
       ]
     },
-    "C:\\Users\\lucas\\Documents\\celo\\tutorial\\start\\node_modules\\@openzeppelin\\contracts\\token\\ERC1155\\ERC1155.sol": {
-      "lastModificationDate": 1618361542206,
-      "contentHash": "8bbbcb8ea0bf31c21135537145a51605",
+    "C:\\Users\\lucas\\OneDrive\\Documentos\\GitHub\\Celo-Tutorial\\demo\\node_modules\\.pnpm\\@openzeppelin+contracts@4.7.1\\node_modules\\@openzeppelin\\contracts\\token\\ERC1155\\ERC1155.sol": {
+      "lastModificationDate": 1658541819053,
+      "contentHash": "9be05ac5a08ad0370e3cc36665ca490c",
       "sourceName": "@openzeppelin/contracts/token/ERC1155/ERC1155.sol",
       "solcConfig": {
-        "version": "0.8.0",
+        "version": "0.8.1",
         "settings": {
           "optimizer": {
             "enabled": false,
@@ -54,7 +55,8 @@
                 "abi",
                 "evm.bytecode",
                 "evm.deployedBytecode",
-                "evm.methodIdentifiers"
+                "evm.methodIdentifiers",
+                "metadata"
               ],
               "": [
                 "ast"
@@ -78,12 +80,12 @@
         "ERC1155"
       ]
     },
-    "C:\\Users\\lucas\\Documents\\celo\\tutorial\\start\\node_modules\\@openzeppelin\\contracts\\token\\ERC1155\\IERC1155.sol": {
-      "lastModificationDate": 1618361542343,
-      "contentHash": "79f5ef33a7ed00ffb7dfdcd4339a946c",
+    "C:\\Users\\lucas\\OneDrive\\Documentos\\GitHub\\Celo-Tutorial\\demo\\node_modules\\.pnpm\\@openzeppelin+contracts@4.7.1\\node_modules\\@openzeppelin\\contracts\\token\\ERC1155\\IERC1155.sol": {
+      "lastModificationDate": 1658541819023,
+      "contentHash": "d5a8f6e07ca38ec384856cfe9f08a867",
       "sourceName": "@openzeppelin/contracts/token/ERC1155/IERC1155.sol",
       "solcConfig": {
-        "version": "0.8.0",
+        "version": "0.8.1",
         "settings": {
           "optimizer": {
             "enabled": false,
@@ -95,7 +97,8 @@
                 "abi",
                 "evm.bytecode",
                 "evm.deployedBytecode",
-                "evm.methodIdentifiers"
+                "evm.methodIdentifiers",
+                "metadata"
               ],
               "": [
                 "ast"
@@ -114,12 +117,12 @@
         "IERC1155"
       ]
     },
-    "C:\\Users\\lucas\\Documents\\celo\\tutorial\\start\\node_modules\\@openzeppelin\\contracts\\token\\ERC1155\\IERC1155Receiver.sol": {
-      "lastModificationDate": 1618361542347,
-      "contentHash": "742b0a3c77abd8d717acd978a6f002cb",
+    "C:\\Users\\lucas\\OneDrive\\Documentos\\GitHub\\Celo-Tutorial\\demo\\node_modules\\.pnpm\\@openzeppelin+contracts@4.7.1\\node_modules\\@openzeppelin\\contracts\\token\\ERC1155\\IERC1155Receiver.sol": {
+      "lastModificationDate": 1658541818992,
+      "contentHash": "9f8822b72fe2702979e40160cb6d9636",
       "sourceName": "@openzeppelin/contracts/token/ERC1155/IERC1155Receiver.sol",
       "solcConfig": {
-        "version": "0.8.0",
+        "version": "0.8.1",
         "settings": {
           "optimizer": {
             "enabled": false,
@@ -131,7 +134,8 @@
                 "abi",
                 "evm.bytecode",
                 "evm.deployedBytecode",
-                "evm.methodIdentifiers"
+                "evm.methodIdentifiers",
+                "metadata"
               ],
               "": [
                 "ast"
@@ -150,12 +154,12 @@
         "IERC1155Receiver"
       ]
     },
-    "C:\\Users\\lucas\\Documents\\celo\\tutorial\\start\\node_modules\\@openzeppelin\\contracts\\token\\ERC1155\\extensions\\IERC1155MetadataURI.sol": {
-      "lastModificationDate": 1618361542345,
-      "contentHash": "f67c3445291b9506fdff7d6527c9e552",
+    "C:\\Users\\lucas\\OneDrive\\Documentos\\GitHub\\Celo-Tutorial\\demo\\node_modules\\.pnpm\\@openzeppelin+contracts@4.7.1\\node_modules\\@openzeppelin\\contracts\\token\\ERC1155\\extensions\\IERC1155MetadataURI.sol": {
+      "lastModificationDate": 1658541819333,
+      "contentHash": "9148c2e10c4efb12c71a7f080da5559b",
       "sourceName": "@openzeppelin/contracts/token/ERC1155/extensions/IERC1155MetadataURI.sol",
       "solcConfig": {
-        "version": "0.8.0",
+        "version": "0.8.1",
         "settings": {
           "optimizer": {
             "enabled": false,
@@ -167,7 +171,8 @@
                 "abi",
                 "evm.bytecode",
                 "evm.deployedBytecode",
-                "evm.methodIdentifiers"
+                "evm.methodIdentifiers",
+                "metadata"
               ],
               "": [
                 "ast"
@@ -186,12 +191,12 @@
         "IERC1155MetadataURI"
       ]
     },
-    "C:\\Users\\lucas\\Documents\\celo\\tutorial\\start\\node_modules\\@openzeppelin\\contracts\\utils\\Address.sol": {
-      "lastModificationDate": 1618361542146,
-      "contentHash": "37103cdc416efc2601c6f6734044b559",
+    "C:\\Users\\lucas\\OneDrive\\Documentos\\GitHub\\Celo-Tutorial\\demo\\node_modules\\.pnpm\\@openzeppelin+contracts@4.7.1\\node_modules\\@openzeppelin\\contracts\\utils\\Address.sol": {
+      "lastModificationDate": 1658541822623,
+      "contentHash": "c476b3895a94798b88a4bb97399e6dfe",
       "sourceName": "@openzeppelin/contracts/utils/Address.sol",
       "solcConfig": {
-        "version": "0.8.0",
+        "version": "0.8.1",
         "settings": {
           "optimizer": {
             "enabled": false,
@@ -203,7 +208,8 @@
                 "abi",
                 "evm.bytecode",
                 "evm.deployedBytecode",
-                "evm.methodIdentifiers"
+                "evm.methodIdentifiers",
+                "metadata"
               ],
               "": [
                 "ast"
@@ -214,18 +220,18 @@
       },
       "imports": [],
       "versionPragmas": [
-        "^0.8.0"
+        "^0.8.1"
       ],
       "artifacts": [
         "Address"
       ]
     },
-    "C:\\Users\\lucas\\Documents\\celo\\tutorial\\start\\node_modules\\@openzeppelin\\contracts\\utils\\Context.sol": {
-      "lastModificationDate": 1618361542171,
-      "contentHash": "bc047f55d4e6dcc5a9c7ee096f530312",
+    "C:\\Users\\lucas\\OneDrive\\Documentos\\GitHub\\Celo-Tutorial\\demo\\node_modules\\.pnpm\\@openzeppelin+contracts@4.7.1\\node_modules\\@openzeppelin\\contracts\\utils\\Context.sol": {
+      "lastModificationDate": 1658541822748,
+      "contentHash": "5f2c5c4b6af2dd4551027144797bc8be",
       "sourceName": "@openzeppelin/contracts/utils/Context.sol",
       "solcConfig": {
-        "version": "0.8.0",
+        "version": "0.8.1",
         "settings": {
           "optimizer": {
             "enabled": false,
@@ -237,7 +243,8 @@
                 "abi",
                 "evm.bytecode",
                 "evm.deployedBytecode",
-                "evm.methodIdentifiers"
+                "evm.methodIdentifiers",
+                "metadata"
               ],
               "": [
                 "ast"
@@ -254,12 +261,12 @@
         "Context"
       ]
     },
-    "C:\\Users\\lucas\\Documents\\celo\\tutorial\\start\\node_modules\\@openzeppelin\\contracts\\utils\\introspection\\ERC165.sol": {
-      "lastModificationDate": 1618361542235,
-      "contentHash": "a9a5319dff9088c6ffe757ea1c2a6729",
+    "C:\\Users\\lucas\\OneDrive\\Documentos\\GitHub\\Celo-Tutorial\\demo\\node_modules\\.pnpm\\@openzeppelin+contracts@4.7.1\\node_modules\\@openzeppelin\\contracts\\utils\\introspection\\ERC165.sol": {
+      "lastModificationDate": 1658541822170,
+      "contentHash": "0e7db055ce108f9da7bb6686a00287c0",
       "sourceName": "@openzeppelin/contracts/utils/introspection/ERC165.sol",
       "solcConfig": {
-        "version": "0.8.0",
+        "version": "0.8.1",
         "settings": {
           "optimizer": {
             "enabled": false,
@@ -271,7 +278,8 @@
                 "abi",
                 "evm.bytecode",
                 "evm.deployedBytecode",
-                "evm.methodIdentifiers"
+                "evm.methodIdentifiers",
+                "metadata"
               ],
               "": [
                 "ast"
@@ -290,12 +298,12 @@
         "ERC165"
       ]
     },
-    "C:\\Users\\lucas\\Documents\\celo\\tutorial\\start\\node_modules\\@openzeppelin\\contracts\\utils\\introspection\\IERC165.sol": {
-      "lastModificationDate": 1618361542348,
-      "contentHash": "9a04322bb8f6b8f2767d8358d1d2537b",
+    "C:\\Users\\lucas\\OneDrive\\Documentos\\GitHub\\Celo-Tutorial\\demo\\node_modules\\.pnpm\\@openzeppelin+contracts@4.7.1\\node_modules\\@openzeppelin\\contracts\\utils\\introspection\\IERC165.sol": {
+      "lastModificationDate": 1658541822294,
+      "contentHash": "03e6768535ac4da0e9756f1d8a4a018a",
       "sourceName": "@openzeppelin/contracts/utils/introspection/IERC165.sol",
       "solcConfig": {
-        "version": "0.8.0",
+        "version": "0.8.1",
         "settings": {
           "optimizer": {
             "enabled": false,
@@ -307,7 +315,8 @@
                 "abi",
                 "evm.bytecode",
                 "evm.deployedBytecode",
-                "evm.methodIdentifiers"
+                "evm.methodIdentifiers",
+                "metadata"
               ],
               "": [
                 "ast"

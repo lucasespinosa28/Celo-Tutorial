@@ -47,7 +47,7 @@ ERC1155 draws ideas from all of ERC20, ERC721, and ERC777. ERC1155s are commonly
 
 ### Install the OpenZeppelin contracts and create your smart contract file
  ```bash
-npm install @openzeppelin/contracts
+npm install --save-dev @openzeppelin/contracts
 touch  contracts/TinyVillage.sol
 ```
 #### Write your smart contract 

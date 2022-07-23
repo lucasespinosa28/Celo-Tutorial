@@ -35,6 +35,6 @@ task("celo-deploy", "Prints account address or create a new", async () => {
  * @type import('hardhat/config').HardhatUserConfig
  */
 module.exports = {
-  solidity: "0.8.0",
+  solidity: "0.8.1",
 };
 
